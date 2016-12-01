@@ -13,17 +13,13 @@
  ==============================================
  */
 
-var GT511C3 = require('gt511c3');
+var GT511C3 = require('../');
 var async = require('async');
 var fs = require('fs');
 
-var fps = new GT511C3('/dev/ttyS1', {
-	baudrate: 115200
-	//baudrate: 57600,
-	//baudrate: 38400,
-	//baudrate: 19200,
-	//baudrate: 9600,
-	//debug: true
+var fps = new GT511C3('COM5', {
+	baudrate: 9600,
+	debug: true
 });
 
 var ID_TO_USE = 199;
@@ -82,15 +78,12 @@ stdin.on('data', function(key) {
 		if (isInit) {
 			fps.close().then(function() {
 				console.log('close OK!');
-				exit();
 			}, function(err) {
 				console.log('close err: ' + fps.decodeError(err));
 				fps.closePort();
-				exit();
 			});
 		} else {
 			fps.closePort();
-			exit();
 		}
 	} else if (key == '1') {
 		fps.ledONOFF(1).then(function() {
